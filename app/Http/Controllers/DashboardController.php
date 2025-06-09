@@ -43,24 +43,6 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        // Get earnings data for the last 30 days
-        $earningsData = DB::table('stake_rewards')
-            ->where('user_id', $user->id)
-            ->where('created_at', '>=', Carbon::now()->subDays(30))
-            ->select(
-                DB::raw('DATE(created_at) as date'),
-                DB::raw('SUM(amount) as earnings')
-            )
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get()
-            ->map(function ($item) {
-                return [
-                    'date' => Carbon::parse($item->date)->format('M d'),
-                    'earnings' => $item->earnings
-                ];
-            });
-
         // Get staking distribution
         $stakingDistribution = DB::table('user_stakes')
             ->join('staking_plans', 'user_stakes.staking_plan_id', '=', 'staking_plans.id')
@@ -77,7 +59,6 @@ class DashboardController extends Controller
             'stats',
             'activeStakes',
             'recentTransactions',
-            'earningsData',
             'stakingDistribution'
         ));
     }
