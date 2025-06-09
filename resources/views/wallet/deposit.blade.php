@@ -21,14 +21,14 @@
 									</div>
 									<div class="card-body">
                 <div class=" p-6">
-                    <div class="text-center mb-8">
+                    <div class="text-center mb-8 d-flex flex-column align-items-center">
                         <h3 class="text-lg font-medium text-gray-900 mb-2">Your Deposit Address</h3>
-                        <div class="p-2 m-1 bg-white">{!! $qrCode !!}</div>
-                        <div class="flex items-center justify-center space-x-4">
+                        <div class="p-2 m-2 bg-white rounded" style="max-width: 230px; max-height:230px;">{!! $qrCode !!}</div>
+                        <div class="flex items-center justify-center space-x-1">
                             
-                            <p class="text-xs font-mono bg-gray-100 px-4 py-2 rounded">{{ $address }}</p>
+                            <p class="text-xs font-mono bg-gray-100 px-4 py-2 rounded mb-0">{{ $address }}</p>
                             <button onclick="copyToClipboard('{{ $address }}')" class="text-indigo-600 hover:text-indigo-900">
-                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
                                 </svg>
                             </button>

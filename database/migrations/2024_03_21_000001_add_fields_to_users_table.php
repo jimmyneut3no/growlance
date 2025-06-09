@@ -11,10 +11,11 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('referral_code')->unique()->nullable();
             $table->foreignId('referred_by')->nullable()->constrained('users')->onDelete('set null');
-            $table->string('kyc_status')->default('pending'); // pending, verified, rejected
+            $table->string('kyc_status')->default('pending'); // pending, verified, rejected 
             $table->json('kyc_data')->nullable();
             $table->json('two_factor_recovery_codes')->nullable();
             $table->timestamp('last_ticket_read_at')->nullable();
+            $table->boolean('is_active')->default(true);
         });
     }
 
@@ -28,7 +29,8 @@ return new class extends Migration
                 'kyc_status',
                 'kyc_data',
                 'two_factor_recovery_codes',
-                'last_ticket_read_at'
+                'last_ticket_read_at',
+                'is_active'
             ]);
         });
     }

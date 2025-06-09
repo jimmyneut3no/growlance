@@ -45,7 +45,7 @@
             <div class="col-12 col-lg-7 items mt-5 mt-lg-0">
                 <div class="card project-card single-item-content no-hover item ms-lg-4">
                     <h3 class="m-0">Our Objective</h3>
-                    <p>At Growlance, we're revolutionizing passive income in crypto by making USDT staking accessible, secure, and highly rewarding. Our automated yield optimization technology consistently delivers top-tier APY while maintaining full liquidity.</p>
+                    <p>At Growlance, we're revolutionizing passive income in crypto by making USDT staking accessible, secure, and highly rewarding. Our automated yield optimization technology consistently delivers top-tier Reward while maintaining full liquidity.</p>
                     <p>Fun fact: The average user earns 11.7% more with our compounding algorithm than with traditional staking platforms. Watch our founder explain how this works in the video.</p>
                 </div>
                 <div class="card project-card single-item-content no-hover item p-0 ms-lg-4">
@@ -100,8 +100,8 @@
                                     </span>
                                 </div>
                                 <div class="content-body ms-4">
-                                    <h3 class="m-0">Highest APY in the Market</h3>
-                                    <p class="mt-3">Earn up to <strong>12% APY</strong> with daily compounding—no hidden fees or lock-ins.</p>
+                                    <h3 class="m-0">Highest Reward in the Market</h3>
+                                    <p class="mt-3">Earn up to <strong>12% Reward</strong> with daily compounding—no hidden fees or lock-ins.</p>
                                 </div>
                             </div>
                         </li>
@@ -141,7 +141,7 @@
 				 </div></div>
                 <div class="stats-visual p-4 text-center">
                     <div class="apy-card bg-white p-4 rounded-3 shadow-sm">
-                        <h3 class="text-gradient">Up to 12% APY</h3>
+                        <h3 class="text-gradient">Up to 12% Reward</h3>
                         <p class="text-muted">Daily Compounding</p>
                         <div class="progress mt-3" style="height: 8px;">
                             <div class="progress-bar bg-success" role="progressbar" style="width: 100%;"></div>
@@ -177,7 +177,7 @@
 								<img src="assets/img/content/cta_thumb.png" alt="">
 							</div>
 							<div class="col-12 col-md-6 mt-4 mt-md-0">
-								<h2 class="m-0">Start Earning Up to 12% APY on Your USDT!</h2>
+								<h2 class="m-0">Start Earning Up to 12% Reward on Your USDT!</h2>
 								<p>Join 50,000+ investors growing their stablecoins with our secure, high-yield staking platform.</p>
 								<a class="btn btn-bordered active d-inline-block" href="{{route('register')}}"><i class="icon-rocket me-2"></i> Stake Now</a>
 							</div>
@@ -225,7 +225,7 @@
 						<div class="single-work">
 							<i class="icons icon-fire text-effect"></i>
 							<h4>Start Staking</h4>
-							<p>Choose flexible (8% APY) or fixed-term (12% APY) staking. Withdraw anytime.</p>
+							<p>Choose flexible (8% Reward) or fixed-term (12% Reward) staking. Withdraw anytime.</p>
 						</div>
 					</div>
 				</div>

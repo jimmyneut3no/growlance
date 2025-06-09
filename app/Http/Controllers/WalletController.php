@@ -124,14 +124,14 @@ return view('wallet.deposit', compact('address', 'pendingDeposits', 'qrCode'));
         $data = $request->all();
         $transaction = WalletTransaction::where('transaction_hash', $data['txHash'])->first();
 
-        if ($transaction) {
+        if ($transaction && $data['status'] == 'completed') {
             $transaction->update(['status' => 'completed']);
         } else {
             WalletTransaction::create([
                 'user_id' => $data['userId'],
                 'type' => $data['type'],
                 'amount' => $data['amount'],
-                'status' => 'completed',
+                'status' => $data['status'],
                 'transaction_hash' => $data['txHash'],
                 'from_address' => $data['from'],
                 'to_address' => $data['to'],

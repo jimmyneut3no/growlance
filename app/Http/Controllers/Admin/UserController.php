@@ -13,10 +13,24 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::withCount(['stakes', 'referrals'])
-            ->withSum('stakes', 'amount')
-            ->latest()
-            ->paginate(20);
+        $query = User::withCount(['stakes', 'referrals'])
+            ->withSum('stakes', 'amount');
+
+        // Search functionality
+        if ($search = request('search')) {
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('username', 'like', "%{$search}%");
+            });
+        }
+
+        // Status filter
+        if ($status = request('status')) {
+            $query->where('is_active', $status === 'active');
+        }
+
+        $users = $query->latest()->paginate(20);
 
         return view('admin.users.index', compact('users'));
     }
@@ -94,5 +108,18 @@ class UserController extends Controller
         $user->update($validated);
 
         return back()->with('success', 'KYC status updated successfully');
+    }
+
+    public function destroy(User $user)
+    {
+        // Prevent deleting the last admin
+        if ($user->is_admin && User::where('is_admin', true)->count() <= 1) {
+            return back()->with('error', 'Cannot delete the last admin user.');
+        }
+
+        $user->delete();
+
+        return redirect()->route('admin.users.index')
+            ->with('success', 'User deleted successfully');
     }
 } 

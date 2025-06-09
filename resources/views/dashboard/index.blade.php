@@ -114,8 +114,8 @@
                                                             <h4 class="text-black">{{ number_format($stake->amount, 2) }} USDT</h4>
                                                         </div>
                                                         <div class="mb-4">
-                                                            <p class="small">APY</p>
-                                                            <h4 class="text-black">{{ $stake->apy }}% APY</h4>
+                                                            <p class="small">Reward</p>
+                                                            <h4 class="text-black">{{ $stake->apy }}%</h4>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4  text-center">

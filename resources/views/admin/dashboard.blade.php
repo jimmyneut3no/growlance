@@ -30,7 +30,7 @@
                             <p class="text-sm font-medium text-blue-800">Total Users</p>
                             <p class="text-2xl font-bold text-gray-900 mt-1">{{ number_format($stats['total_users']) }}</p>
                             <div class="flex items-center mt-2">
-                                <span class="bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded-full">+12% from last month</span>
+                                {{-- <span class="bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded-full">+12% from last month</span> --}}
                             </div>
                         </div>
                         <div class="p-3 bg-white rounded-lg shadow-xs">
@@ -48,7 +48,7 @@
                             <p class="text-sm font-medium text-green-800">Total Staked</p>
                             <p class="text-2xl font-bold text-gray-900 mt-1">${{ number_format($stats['total_staked_amount'], 2) }}</p>
                             <div class="flex items-center mt-2">
-                                <span class="bg-green-200 text-green-800 text-xs px-2 py-0.5 rounded-full">+8.5% from last month</span>
+                                {{-- <span class="bg-green-200 text-green-800 text-xs px-2 py-0.5 rounded-full">+8.5% from last month</span> --}}
                             </div>
                         </div>
                         <div class="p-3 bg-white rounded-lg shadow-xs">
@@ -66,7 +66,7 @@
                             <p class="text-sm font-medium text-purple-800">Total Deposits</p>
                             <p class="text-2xl font-bold text-gray-900 mt-1">${{ number_format($stats['total_deposits'], 2) }}</p>
                             <div class="flex items-center mt-2">
-                                <span class="bg-purple-200 text-purple-800 text-xs px-2 py-0.5 rounded-full">+15.2% from last month</span>
+                                {{-- <span class="bg-purple-200 text-purple-800 text-xs px-2 py-0.5 rounded-full">+15.2% from last month</span> --}}
                             </div>
                         </div>
                         <div class="p-3 bg-white rounded-lg shadow-xs">
@@ -84,7 +84,7 @@
                             <p class="text-sm font-medium text-amber-800">Referral Earnings</p>
                             <p class="text-2xl font-bold text-gray-900 mt-1">${{ number_format($stats['total_referral_earnings'], 2) }}</p>
                             <div class="flex items-center mt-2">
-                                <span class="bg-amber-200 text-amber-800 text-xs px-2 py-0.5 rounded-full">+22% from last month</span>
+                                {{-- <span class="bg-amber-200 text-amber-800 text-xs px-2 py-0.5 rounded-full">+22% from last month</span> --}}
                             </div>
                         </div>
                         <div class="p-3 bg-white rounded-lg shadow-xs">
@@ -99,29 +99,16 @@
             <!-- Main Content Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Monthly Overview (Chart + Stats) -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-sm border-b border-gray-100 p-6 lg:col-span-1">
+                    <div class="border-b border-gray-100">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-lg font-bold text-gray-900">Monthly Overview</h3>
-                        <div class="relative">
-                            <select class="appearance-none bg-gray-50 border border-gray-200 text-gray-700 py-1.5 px-3 pr-8 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
-                                <option>Last 30 days</option>
-                                <option>Last 90 days</option>
-                                <option>This year</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </div>
-                        </div>
                     </div>
-                    
-                    <!-- Mini Chart Placeholder (would be replaced with actual chart) -->
-                    <div class="h-40 bg-gray-50 rounded-lg mb-6 flex items-center justify-center text-gray-400">
-                        [Monthly Chart Placeholder]
                     </div>
+                
                     
-                    <div class="space-y-4">
+                                        <div class="divide-y divide-gray-100">
+
                         <div class="flex justify-between items-center p-3 hover:bg-gray-50 rounded-lg transition-colors">
                             <div class="flex items-center space-x-3">
                                 <div class="p-2 bg-blue-100 rounded-lg">
@@ -134,7 +121,7 @@
                                     <p class="text-lg font-bold text-gray-900">{{ number_format($monthlyStats['new_users']) }}</p>
                                 </div>
                             </div>
-                            <span class="text-sm font-medium text-green-600">+{{ rand(5, 15) }}%</span>
+                            {{-- <span class="text-sm font-medium text-green-600">+{{ rand(5, 15) }}%</span> --}}
                         </div>
                         
                         <div class="flex justify-between items-center p-3 hover:bg-gray-50 rounded-lg transition-colors">
@@ -149,7 +136,7 @@
                                     <p class="text-lg font-bold text-gray-900">{{ number_format($monthlyStats['new_stakes']) }}</p>
                                 </div>
                             </div>
-                            <span class="text-sm font-medium text-green-600">+{{ rand(5, 15) }}%</span>
+                            {{-- <span class="text-sm font-medium text-green-600">+{{ rand(5, 15) }}%</span> --}}
                         </div>
                         
                         <div class="flex justify-between items-center p-3 hover:bg-gray-50 rounded-lg transition-colors">
@@ -164,7 +151,7 @@
                                     <p class="text-lg font-bold text-gray-900">${{ number_format($monthlyStats['new_deposits'], 2) }}</p>
                                 </div>
                             </div>
-                            <span class="text-sm font-medium text-green-600">+{{ rand(5, 15) }}%</span>
+                            {{-- <span class="text-sm font-medium text-green-600">+{{ rand(5, 15) }}%</span> --}}
                         </div>
                     </div>
                 </div>
@@ -174,12 +161,12 @@
                     <div class="p-6 border-b border-gray-100">
                         <div class="flex justify-between items-center">
                             <h3 class="text-lg font-bold text-gray-900">Recent Stakes</h3>
-                            <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center">
+                            {{-- <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center">
                                 View all
                                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                                 </svg>
-                            </a>
+                            </a> --}}
                         </div>
                     </div>
                     <div class="divide-y divide-gray-100">
@@ -212,12 +199,12 @@
                     <div class="p-6 border-b border-gray-100">
                         <div class="flex justify-between items-center">
                             <h3 class="text-lg font-bold text-gray-900">Recent Transactions</h3>
-                            <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center">
+                            {{-- <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center">
                                 View all
                                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                                 </svg>
-                            </a>
+                            </a> --}}
                         </div>
                     </div>
                     <div class="divide-y divide-gray-100">

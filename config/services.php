@@ -40,4 +40,8 @@ return [
         'shared_secret' => env('NODE_SHARED_SECRET'),
     ],
 
+    'node_api' => [
+        'url' => env('NODE_API_URL', 'http://localhost:3000'),
+    ],
+
 ];

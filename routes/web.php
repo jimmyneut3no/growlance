@@ -8,6 +8,7 @@ use App\Http\Controllers\SupportController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\TwoFactorController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\Admin\CredentialController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PagesController::class,'home'])->name('home');
@@ -65,7 +66,6 @@ Route::middleware(['auth', 'verified', 'sweep'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile/password', [ProfileController::class, 'password'])->name('profile.password');
     Route::get('/profile/advanced', [ProfileController::class, 'advanced'])->name('profile.advanced');
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
@@ -84,12 +84,13 @@ Route::post('/webhook/wallet', [WalletController::class, 'webhook'])->name('webh
 // Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
-    
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
     // User Management
     Route::get('/users', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
     Route::get('/users/{user}', [App\Http\Controllers\Admin\UserController::class, 'show'])->name('users.show');
     Route::get('/users/{user}/edit', [App\Http\Controllers\Admin\UserController::class, 'edit'])->name('users.edit');
     Route::put('/users/{user}', [App\Http\Controllers\Admin\UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{user}', [App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
     Route::post('/users/{user}/toggle-admin', [App\Http\Controllers\Admin\UserController::class, 'toggleAdmin'])->name('users.toggle-admin');
     Route::post('/users/{user}/update-kyc', [App\Http\Controllers\Admin\UserController::class, 'updateKycStatus'])->name('users.update-kyc');
     
@@ -100,6 +101,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Referral Settings
     Route::get('/referral-settings', [App\Http\Controllers\Admin\ReferralSettingsController::class, 'index'])->name('referral-settings.index');
     Route::put('/referral-settings', [App\Http\Controllers\Admin\ReferralSettingsController::class, 'update'])->name('referral-settings.update');
+
+    Route::resource('credentials', CredentialController::class)->only(['index', 'store', 'update']);
+    Route::get('/credentials/health', [CredentialController::class, 'health'])->name('credentials.health');
+    Route::post('/credentials/restart', [CredentialController::class, 'restartServer'])->name('credentials.restart');
 });
 
 require __DIR__.'/auth.php';

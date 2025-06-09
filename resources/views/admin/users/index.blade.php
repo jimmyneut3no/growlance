@@ -60,7 +60,7 @@
                                                         {{ $user->email }}
                                                     </div>
                                                     <div class="text-xs text-gray-500">
-                                                        @{{ $user->username }}
+                                                        @ {{ $user->username }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -83,11 +83,10 @@
                                             <div class="flex space-x-2">
                                                 <a href="{{ route('admin.users.show', $user) }}" class="text-indigo-600 hover:text-indigo-900">View</a>
                                                 <a href="{{ route('admin.users.edit', $user) }}" class="text-yellow-600 hover:text-yellow-900">Edit</a>
-                                                <form action="{{ route('admin.users.toggle-admin', $user) }}" method="POST" class="inline">
+                                                <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this user?');">
                                                     @csrf
-                                                    <button type="submit" class="text-blue-600 hover:text-blue-900">
-                                                        {{ $user->is_admin ? 'Remove Admin' : 'Make Admin' }}
-                                                    </button>
+                                                    @method('DELETE')
+                                                    <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
                                                 </form>
                                             </div>
                                         </td>

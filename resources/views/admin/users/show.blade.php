@@ -33,7 +33,7 @@
                             </div>
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700">Username</label>
-                                <div class="mt-1 text-gray-900">@{{ $user->username }}</div>
+                                <div class="mt-1 text-gray-900">@ {{ $user->username }}</div>
                             </div>
                         </div>
                         <div>
@@ -53,14 +53,14 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="mb-4">
+                            {{-- <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700">KYC Status</label>
                                 <div class="mt-1">
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $user->kyc_status === 'verified' ? 'bg-green-100 text-green-800' : ($user->kyc_status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800') }}">
                                         {{ ucfirst($user->kyc_status) }}
                                     </span>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -70,21 +70,6 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                 <div class="p-6 text-gray-900">
                     <h3 class="text-lg font-semibold mb-4">Staking Information</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Total Stakes</label>
-                            <div class="mt-1 text-2xl font-bold text-gray-900">{{ $user->stakes_count }}</div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Total Staked Amount</label>
-                            <div class="mt-1 text-2xl font-bold text-gray-900">${{ number_format($user->total_staked, 2) }}</div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Active Stakes</label>
-                            <div class="mt-1 text-2xl font-bold text-gray-900">{{ $user->active_stakes_count }}</div>
-                        </div>
-                    </div>
-
                     <!-- Recent Stakes -->
                     <div class="mt-6">
                         <h4 class="text-md font-medium mb-3">Recent Stakes</h4>
@@ -119,48 +104,6 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Referral Information -->
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <h3 class="text-lg font-semibold mb-4">Referral Information</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Total Referrals</label>
-                            <div class="mt-1 text-2xl font-bold text-gray-900">{{ $user->referrals_count }}</div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Total Earnings</label>
-                            <div class="mt-1 text-2xl font-bold text-gray-900">${{ number_format($user->total_referral_earnings, 2) }}</div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Referral Code</label>
-                            <div class="mt-1 text-2xl font-bold text-gray-900">@{{ $user->username }}</div>
-                        </div>
-                    </div>
-
-                    <!-- Referral Tree -->
-                    <div class="mt-6">
-                        <h4 class="text-md font-medium mb-3">Referral Tree</h4>
-                        <div class="space-y-4">
-                            @foreach($user->referrals as $referral)
-                                <div class="border rounded-lg p-4">
-                                    <div class="flex justify-between items-start">
-                                        <div>
-                                            <div class="font-medium">{{ $referral->referred->name }}</div>
-                                            <div class="text-sm text-gray-500">@{{ $referral->referred->username }}</div>
-                                        </div>
-                                        <div class="text-right">
-                                            <div class="text-sm font-medium text-green-600">${{ number_format($referral->earnings, 2) }}</div>
-                                            <div class="text-xs text-gray-500">{{ $referral->created_at->format('M d, Y') }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
                         </div>
                     </div>
                 </div>

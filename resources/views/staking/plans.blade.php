@@ -21,7 +21,7 @@
 										</div>
 										<div class="text-right">
                                             <p class="text-2xl font-bold text-indigo-600">{{ $plan->apy }}%</p>
-                                            <p class="text-sm text-gray-500">APY</p>
+                                            <p class="text-sm text-gray-500">Reward</p>
                                         </div>
 									</div>
 									<div class="card-body">

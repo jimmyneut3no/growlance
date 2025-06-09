@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }} - Admin</title>
+    <title>{{ config('app.name', 'Growlance') }} - Admin</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{{asset('vendor/toastr/css/toastr.min.css')}}">
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -42,6 +43,9 @@
                             <x-admin-nav-link :href="route('admin.referral-settings.index')" :active="request()->routeIs('admin.referral-settings.*')">
                                 {{ __('Referral Settings') }}
                             </x-admin-nav-link>
+                            <x-admin-nav-link :href="route('admin.credentials.index')" :active="request()->routeIs('admin.credentials.*')">
+                                {{ __('Credentials') }}
+                            </x-admin-nav-link>
                         </div>
                     </div>
 
@@ -61,9 +65,9 @@
                             </x-slot>
 
                             <x-slot name="content">
-                                <x-dropdown-link :href="route('profile.edit')">
+                                {{-- <x-dropdown-link :href="route('admin.profile')">
                                     {{ __('Profile') }}
-                                </x-dropdown-link>
+                                </x-dropdown-link> --}}
 
                                 <!-- Authentication -->
                                 <form method="POST" action="{{ route('logout') }}">
@@ -105,6 +109,9 @@
                     <x-responsive-nav-link :href="route('admin.referral-settings.index')" :active="request()->routeIs('admin.referral-settings.*')">
                         {{ __('Referral Settings') }}
                     </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('admin.credentials.index')" :active="request()->routeIs('admin.credentials.*')">
+                        {{ __('Credentials') }}
+                    </x-responsive-nav-link>
                 </div>
 
                 <!-- Responsive Settings Options -->
@@ -115,9 +122,9 @@
                     </div>
 
                     <div class="mt-3 space-y-1">
-                        <x-responsive-nav-link :href="route('profile.edit')">
+                        {{-- <x-responsive-nav-link :href="route('admin.profile')">
                             {{ __('Profile') }}
-                        </x-responsive-nav-link>
+                        </x-responsive-nav-link> --}}
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -151,5 +158,32 @@
             </div>
         </main>
     </div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="{{asset('vendor/toastr/js/toastr.min.js')}}"></script>
+	<script>
+    toastr.options = {
+    "closeButton": true,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "timeOut": "5000"
+};
+
+    @if(session('success'))
+        toastr.success("{{ session('success') }}");
+    @endif
+
+    @if(session('error'))
+        toastr.error("{{ session('error') }}");
+    @endif
+
+    @if(session('info'))
+        toastr.info("{{ session('info') }}");
+    @endif
+
+    @if(session('warning'))
+        toastr.warning("{{ session('warning') }}");
+    @endif
+</script>
+
 </body>
 </html> 

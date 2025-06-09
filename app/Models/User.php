@@ -24,8 +24,6 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'username',
-        'balance',
-        'wallet_address',
         'email',
         'password',
         'referred_by',
@@ -35,6 +33,7 @@ class User extends Authenticatable
         'two_factor_enabled',
         'two_factor_recovery_codes',
         'last_ticket_read_at',
+        'is_active',
     ];
 
     /**

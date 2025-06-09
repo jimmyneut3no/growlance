@@ -90,6 +90,20 @@ class BlockchainService
 
         throw new \Exception('Failed to generate deposit address');
     }
+        public function healthCheck()
+    {
+        $response = $this->sendSecureGetRequest("/health");
+
+        if ($response && $response->successful()) {
+            return ['status'=>true, 'data'=>$response->json()];
+        }
+
+        Log::error('Failed to get health info', [
+            'response' => optional($response)->json(),
+        ]);
+
+        throw new \Exception('Failed to get health info');
+    }
 
     public function processWithdrawal($payload)
     {
@@ -114,7 +128,32 @@ class BlockchainService
             'message' => optional($response)->json('message', 'Failed to process withdrawal'),
         ];
     }
+    public function restartServer()
+    {
+        $response = $this->sendSecureRequest("/restart", []);
 
+        if ($response && $response->successful()) {
+
+            Log::info('Server Restart Successful', [
+            'response' => optional($response)->json(),
+        ]);
+        
+            return [
+                'success' => true,
+                'message' => 'Server Restart Successful',
+                'data' => $response->json(),
+            ];
+        }
+
+        Log::error('Server Restart failed', [
+            'response' => optional($response)->json()
+        ]);
+
+        return [
+            'success' => false,
+            'message' => 'Server Restart failed',
+        ];
+    }
     public function sweep(User $user)
     {
         $response = $this->sendSecureRequest("/sweep/$user->id", []);

@@ -28,7 +28,7 @@
 										</div>
 										<div class="text-right">
                                             <p class="text-2xl font-bold text-indigo-600">{{ $plan->apy }}%</p>
-                                            <p class="text-sm text-gray-500">APY</p>
+                                            <p class="text-sm text-gray-500">Reward</p>
                                         </div>
 									</div>
 									<div class="card-body">
@@ -99,8 +99,8 @@
                                                             <h4 class="text-black">{{ number_format($stake->amount, 2) }} USDT</h4>
                                                         </div>
                                                         <div class="mb-4">
-                                                            <p class="small">APY</p>
-                                                            <h4 class="text-black">{{ $stake->apy }}% APY</h4>
+                                                            <p class="small">Reward</p>
+                                                            <h4 class="text-black">{{ $stake->apy }}%</h4>
                                                         </div>
                                                         <div class="mb-4">
                                                             <p class="small">Stake type</p>
