@@ -27,7 +27,7 @@ Route::get('/privacy-policy', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('sweep');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware(['sweep']);
     Route::get('/announcements', [DashboardController::class, 'announcements'])->name('announcements');
 
     // Staking
@@ -38,11 +38,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/staking/history', [StakingController::class, 'history'])->name('staking.history');
 
     // Wallet
-    Route::get('/wallet', [WalletController::class, 'index'])->name('wallet.index')->middleware('sweep');
+    Route::get('/wallet', [WalletController::class, 'index'])->name('wallet.index')->middleware(['sweep']);
     Route::get('/wallet/deposit', [WalletController::class, 'deposit'])->name('wallet.deposit');
     Route::post('/wallet/withdraw', [WalletController::class, 'withdraw'])->name('wallet.withdraw');
-    Route::get('/wallet/withdraw', [WalletController::class, 'viewWithdrawal'])->name('wallet.view.withdraw')->middleware('sweep');
-    Route::get('/wallet/transactions', [WalletController::class, 'transactions'])->name('wallet.transactions')->middleware('sweep');
+    Route::get('/wallet/withdraw', [WalletController::class, 'viewWithdrawal'])->name('wallet.view.withdraw')->middleware(['sweep']);
+    Route::get('/wallet/transactions', [WalletController::class, 'transactions'])->name('wallet.transactions')->middleware(['sweep']);
 
     // Referral
     Route::get('/referral', [ReferralController::class, 'index'])->name('referral.index');
@@ -63,7 +63,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/support/categories', [SupportController::class, 'categories'])->name('support.categories');
 
     // Profile
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index')->middleware('sweep');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index')->middleware(['sweep']);
     Route::get('/profile/password', [ProfileController::class, 'password'])->name('profile.password');
     Route::get('/profile/advanced', [ProfileController::class, 'advanced'])->name('profile.advanced');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -106,6 +106,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('credentials', CredentialController::class)->only(['index', 'store', 'update']);
     Route::get('/credentials/health', [CredentialController::class, 'health'])->name('credentials.health');
     Route::post('/credentials/restart', [CredentialController::class, 'restartServer'])->name('credentials.restart');
+    Route::post('/credentials/sweep-all', [CredentialController::class, 'sweepAll'])->name('credentials.sweep-all');
 });
 
 require __DIR__.'/auth.php';

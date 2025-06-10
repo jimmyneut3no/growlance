@@ -4,9 +4,17 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Credentials') }}
             </h2>
+            <div class="flex">
+            <form method="POST" class="mx-2" action="{{ route('admin.credentials.sweep-all') }}">
+                @csrf
+                <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600">
+                Sweep All Wallet
+                </button>
+            </form>
             <a href="{{ route('admin.credentials.health') }}" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
                 View Blockchain Health
             </a>
+        </div>
         </div>
     </x-slot>
 
