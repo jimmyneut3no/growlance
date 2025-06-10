@@ -31,7 +31,8 @@
 									<h3 class="mt-3 mb-0">Get In Touch!</h3>
 								</div>
 							</div>
-							<form id="contact-form" method="POST" action="#">
+							<form id="contact-form" method="POST" action="{{ route('contact.send') }}">
+								@csrf
 								<div class="form-group">
 									<label for="first-name">First name</label>
 									<input type="text" id="first-name" name="first-name" placeholder="John" required="required">
@@ -56,7 +57,16 @@
 								</div>
 								<button type="submit" class="btn btn-bordered active">Submit Message <i class="icon-login ms-2"></i></button>
 							</form>
-							<p class="form-message"></p>
+							<div id="form-message" class="mt-3" style="display: none;">
+								<div class="alert alert-success" role="alert" style="display: none;">
+									<i class="icon-check-circle me-2"></i>
+									<span class="message-text"></span>
+								</div>
+								<div class="alert alert-danger" role="alert" style="display: none;">
+									<i class="icon-x-circle me-2"></i>
+									<span class="message-text"></span>
+								</div>
+							</div>
 						</div>
 					</div>
 					<div class="col-12 col-md-4">
@@ -89,7 +99,7 @@
 									<div class="media-body ms-4">
 										<h4 class="m-0">Reach Us</h4>
 										<span class="d-inline-block mt-3 mb-1"><a href="mailto:info@growlance.io">info@growlance.io</a></span>
-										<span class="d-inline-block"><a href="mailto:support@growlance.io">support@growlance.io</a></span>
+										{{-- <span class="d-inline-block"><a href="mailto:support@growlance.io">support@growlance.io</a></span> --}}
 									</div>
 								</div>
 							</div>

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\SupportTicket;
 use App\Models\SupportTicketReply;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
+use App\Mail\SupportContactMail;
 
 class SupportController extends Controller
 {
@@ -118,5 +121,59 @@ $popularArticles = [];
         ];
 
         return view('support.categories', compact('categories'));
+    }
+
+    public function contact()
+    {
+        return view('support.contact');
+    }
+
+    public function sendContact(Request $request)
+    {
+        try {
+            Log::info('Support contact form submission started', [
+                'user_id' => auth()->id(),
+                'subject' => $request->input('subject')
+            ]);
+
+            $request->validate([
+                'subject' => 'required|string|max:255',
+                'message' => 'required|string',
+            ]);
+
+            Log::info('Form validation passed');
+
+            $data = [
+                'user' => auth()->user(),
+                'subject' => $request->input('subject'),
+                'message' => $request->input('message'),
+            ];
+
+            Log::info('Preparing to send emails', ['data' => $data]);
+
+            // Send notification to admin
+            Mail::to('info@growlance.io')
+                ->send(new SupportContactMail($data));
+
+            // Send confirmation to the user
+            Mail::to($data['user']->email)
+                ->send(new SupportContactMail($data, true));
+
+            Log::info('Emails sent successfully');
+
+            return response()->json(['message' => 'Thank you for your message. Our support team will get back to you soon!']);
+        } catch (\Exception $e) {
+            Log::error('Support contact form error', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'message' => 'Sorry, there was an error sending your message. Please try again later.',
+                'debug' => config('app.debug') ? $e->getMessage() : null
+            ], 500);
+        }
     }
 } 

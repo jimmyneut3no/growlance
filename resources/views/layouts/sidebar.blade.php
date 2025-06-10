@@ -40,9 +40,9 @@
                     <x-nav-link :href="route('profile.index')" :active="request()->routeIs('profile.index')" :icon="'la la-users-cog'">
                         {{ __('Profile & Settings') }}
                     </x-nav-link>
-                    {{-- <x-nav-link :href="route('support.index')" :active="request()->routeIs('support.index')" :icon="'flaticon-381-networking'">
+                    <x-nav-link :href="route('support.contact')" :active="request()->routeIs('support.contact')" :icon="'flaticon-381-networking'">
                         {{ __('Support') }}
-                    </x-nav-link> --}}
+                    </x-nav-link>
                 </ul>
             
 				<div class="book-box">

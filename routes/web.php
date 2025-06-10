@@ -16,6 +16,7 @@ Route::get('/', [PagesController::class,'home'])->name('home');
 Route::get('/staking-plans', [PagesController::class,'stakingPlans'])->name('staking-plans');
 
 Route::get('/contact', [PagesController::class,'contact'])->name('contact');
+Route::post('/contact', [PagesController::class,'sendContact'])->name('contact.send');
 
 Route::get('/terms-conditions', function () {
     return view('terms');
@@ -25,9 +26,9 @@ Route::get('/privacy-policy', function () {
     return view('policy');
 })->name('privacy-policy');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'sweep'])->group(function () {
     // Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware(['sweep']);
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/announcements', [DashboardController::class, 'announcements'])->name('announcements');
 
     // Staking
@@ -56,11 +57,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/support/search', [SupportController::class, 'index'])->name('support.search');
     Route::get('/support/create', [SupportController::class, 'create'])->name('support.ticket.create');
     Route::post('/support', [SupportController::class, 'store'])->name('support.store');
+    Route::get('/support/categories', [SupportController::class, 'categories'])->name('support.categories');
+    Route::get('/support/contact', [SupportController::class, 'contact'])->name('support.contact');
+    Route::post('/support/contact', [SupportController::class, 'sendContact'])->name('support.contact.send');
     Route::get('/support/{ticket}', [SupportController::class, 'show'])->name('support.show');
     Route::post('/support/{ticket}/reply', [SupportController::class, 'reply'])->name('support.reply');
     Route::post('/support/{ticket}/close', [SupportController::class, 'close'])->name('support.close');
     Route::post('/support/{ticket}/reopen', [SupportController::class, 'reopen'])->name('support.reopen');
-    Route::get('/support/categories', [SupportController::class, 'categories'])->name('support.categories');
+
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index')->middleware(['sweep']);

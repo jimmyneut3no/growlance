@@ -409,16 +409,20 @@
 7. Contact Form
 ----------------------------------------------*/
 (function ($) {
-
     'use strict';
 
     var form = $('#contact-form');
-
-    var formMessages = $('.form-message');
+    var formMessage = $('#form-message');
+    var successAlert = formMessage.find('.alert-success');
+    var errorAlert = formMessage.find('.alert-danger');
 
     $(form).submit(function (e) {
-
         e.preventDefault();
+        
+        // Hide any existing alerts
+        successAlert.hide();
+        errorAlert.hide();
+        formMessage.hide();
 
         var formData = $(form).serialize();
 
@@ -428,23 +432,30 @@
             data: formData
         })
         .done(function (response) {
-
-            $(formMessages).removeClass('error');
-            $(formMessages).addClass('success');
-
-            $(formMessages).text(response);
-
-            $('#contact-form input,#contact-form textarea').val('');
+            // Show success message
+            formMessage.show();
+            successAlert.show();
+            successAlert.find('.message-text').text(response.message);
+            
+            // Clear form
+            $('#contact-form input, #contact-form textarea').val('');
+            
+            // Hide success message after 5 seconds
+            setTimeout(function() {
+                formMessage.fadeOut();
+            }, 5000);
         })
         .fail(function (data) {
-
-            $(formMessages).removeClass('success');
-            $(formMessages).addClass('error');
-
-            if (data.responseText !== '') {
-                $(formMessages).text(data.responseText);
+            // Show error message
+            formMessage.show();
+            errorAlert.show();
+            
+            if (data.responseJSON && data.responseJSON.message) {
+                errorAlert.find('.message-text').text(data.responseJSON.message);
+            } else if (data.responseText !== '') {
+                errorAlert.find('.message-text').text(data.responseText);
             } else {
-                $(formMessages).text('Oops! An error occured and your message could not be sent.');
+                errorAlert.find('.message-text').text('Oops! An error occurred and your message could not be sent.');
             }
         });
     });

@@ -75,7 +75,7 @@
 								<img src="assets/img/content/cta_thumb.png" alt="">
 							</div>
 							<div class="col-12 col-md-6 mt-4 mt-md-0">
-								<h2 class="m-0">Start Earning Up to 12% Reward on Your USDT!</h2>
+								<h2 class="m-0">Start Earning Up to 5% Reward on Your USDT!</h2>
 								<p>Join 50,000+ investors growing their stablecoins with our secure, high-yield staking platform.</p>
 								<a class="btn btn-bordered active d-inline-block" href="{{route('register')}}"><i class="icon-rocket me-2"></i> Stake Now</a>
 							</div>

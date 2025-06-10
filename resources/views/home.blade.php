@@ -33,10 +33,10 @@
                 </div>
                 <div class="card project-card single-item-content no-hover item">
                     <h3 class="m-0">Welcome to Growlance</h3>
-                    <p class="mb-0">Founded in 2022 by blockchain veterans, we've grown to become a trusted name in crypto staking, helping over 50,000 users earn passive income on their USDT holdings.</p>
+                    <p class="mb-0">Founded in 2025 by blockchain veterans, we've grown to become a trusted name in crypto staking, helping over 50,000 users earn passive income on their USDT holdings.</p>
                     <h4>Why We're Different</h4>
                     <ul>
-                        <li>First platform to offer compound interest on USDT staking</li>
+                        <li>First platform to offer compound reward on USDT staking</li>
                         <li>Processed over $1.3m in staking transactions</li>
                         <li>24/7 customer support with < 1 hour response time</li>
                     </ul>
@@ -101,7 +101,7 @@
                                 </div>
                                 <div class="content-body ms-4">
                                     <h3 class="m-0">Highest Reward in the Market</h3>
-                                    <p class="mt-3">Earn up to <strong>12% Reward</strong> with daily compounding—no hidden fees or lock-ins.</p>
+                                    <p class="mt-3">Earn up to <strong>5% Reward</strong> with daily compounding—no hidden fees or lock-ins.</p>
                                 </div>
                             </div>
                         </li>
@@ -141,7 +141,7 @@
 				 </div></div>
                 <div class="stats-visual p-4 text-center">
                     <div class="apy-card bg-white p-4 rounded-3 shadow-sm">
-                        <h3 class="text-gradient">Up to 12% Reward</h3>
+                        <h3 class="text-gradient">Up to 5% Reward</h3>
                         <p class="text-muted">Daily Compounding</p>
                         <div class="progress mt-3" style="height: 8px;">
                             <div class="progress-bar bg-success" role="progressbar" style="width: 100%;"></div>
@@ -177,7 +177,7 @@
 								<img src="assets/img/content/cta_thumb.png" alt="">
 							</div>
 							<div class="col-12 col-md-6 mt-4 mt-md-0">
-								<h2 class="m-0">Start Earning Up to 12% Reward on Your USDT!</h2>
+								<h2 class="m-0">Start Earning Up to 5% Reward on Your USDT!</h2>
 								<p>Join 50,000+ investors growing their stablecoins with our secure, high-yield staking platform.</p>
 								<a class="btn btn-bordered active d-inline-block" href="{{route('register')}}"><i class="icon-rocket me-2"></i> Stake Now</a>
 							</div>
@@ -217,7 +217,7 @@
 						<div class="single-work">
 							<i class="icons icon-wallet text-effect"></i>
 							<h4>Deposit USDT</h4>
-							<p>Send USDT (TRC-20 or BEP-20) to your staking wallet. Minimum deposit: 50 USDT.</p>
+							<p>Send USDT (BEP-20) to your staking wallet. Minimum deposit: 50 USDT.</p>
 						</div>
 					</div>
 					<div class="col-12 col-sm-6 col-lg-4 item">
@@ -225,7 +225,7 @@
 						<div class="single-work">
 							<i class="icons icon-fire text-effect"></i>
 							<h4>Start Staking</h4>
-							<p>Choose flexible (8% Reward) or fixed-term (12% Reward) staking. Withdraw anytime.</p>
+							<p>Choose from our flexible USDT staking plans, and enjoy daily reward & free to withdraw anytime.</p>
 						</div>
 					</div>
 				</div>

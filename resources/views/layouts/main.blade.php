@@ -182,17 +182,16 @@
 							</a>
 							<!-- Social Icons -->
 							<div class="social-icons d-flex justify-content-center my-4">
-								<a class="facebook" href="https://www.facebook.com/" target="_blank">
-									<i class="icon-social-facebook"></i>
-									<i class="icon-social-facebook"></i>
+								<a class="facebook" href="https://t.me/growlanceofficial" target="_blank">
+									<i class="icon-social-telegram"></i>
+									<i class="icon-social-telegram"></i>
 								</a>
-								<a class="twitter" href="https://twitter.com/" target="_blank">
+								<a class="twitter" href="https://x.com/growlanceio?t=QGtEEPn8nSqJiAewe1KNIg&s=09" target="_blank">
 									<i class="icon-social-twitter"></i>
 									<i class="icon-social-twitter"></i>
 								</a>
-								<a class="linkedin" href="https://www.linkedin.com/" target="_blank">
-									<i class="icon-social-linkedin"></i>
-									<i class="icon-social-linkedin"></i>
+								<a href="{{ asset('/assets/Growlance_Brochure.pdf') }}" target="_blank" style="display:flex;align-items:center;justify-content:center;width:170px" rel="noopener noreferrer">
+									<span class="d-flex justify-content-center align-items-center"><i class="icon-doc"></i> View Our PDF</span> 
 								</a>
 							</div>
 							<ul class="list-inline">
@@ -202,7 +201,7 @@
 								<li class="list-inline-item"><a href="{{route('privacy-policy')}}">Privacy Policy</a></li>
 							</ul>
 							<!-- Copyright Area -->
-							<div class="copyright-area py-4">&copy;2024 Growlance, All Rights Reserved</div>
+							<div class="copyright-area py-4">&copy;2025 Growlance, All Rights Reserved</div>
 						</div>
 						<!-- Scroll To Top -->
 						<div id="scroll-to-top" class="scroll-to-top">
