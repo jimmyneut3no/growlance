@@ -25,9 +25,9 @@ Route::get('/privacy-policy', function () {
     return view('policy');
 })->name('privacy-policy');
 
-Route::middleware(['auth', 'verified', 'sweep'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('sweep');
     Route::get('/announcements', [DashboardController::class, 'announcements'])->name('announcements');
 
     // Staking
@@ -38,11 +38,11 @@ Route::middleware(['auth', 'verified', 'sweep'])->group(function () {
     Route::get('/staking/history', [StakingController::class, 'history'])->name('staking.history');
 
     // Wallet
-    Route::get('/wallet', [WalletController::class, 'index'])->name('wallet.index');
+    Route::get('/wallet', [WalletController::class, 'index'])->name('wallet.index')->middleware('sweep');
     Route::get('/wallet/deposit', [WalletController::class, 'deposit'])->name('wallet.deposit');
     Route::post('/wallet/withdraw', [WalletController::class, 'withdraw'])->name('wallet.withdraw');
-    Route::get('/wallet/withdraw', [WalletController::class, 'viewWithdrawal'])->name('wallet.view.withdraw');
-    Route::get('/wallet/transactions', [WalletController::class, 'transactions'])->name('wallet.transactions');
+    Route::get('/wallet/withdraw', [WalletController::class, 'viewWithdrawal'])->name('wallet.view.withdraw')->middleware('sweep');
+    Route::get('/wallet/transactions', [WalletController::class, 'transactions'])->name('wallet.transactions')->middleware('sweep');
 
     // Referral
     Route::get('/referral', [ReferralController::class, 'index'])->name('referral.index');
@@ -63,7 +63,7 @@ Route::middleware(['auth', 'verified', 'sweep'])->group(function () {
     Route::get('/support/categories', [SupportController::class, 'categories'])->name('support.categories');
 
     // Profile
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index')->middleware('sweep');
     Route::get('/profile/password', [ProfileController::class, 'password'])->name('profile.password');
     Route::get('/profile/advanced', [ProfileController::class, 'advanced'])->name('profile.advanced');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -73,7 +73,7 @@ Route::middleware(['auth', 'verified', 'sweep'])->group(function () {
 // Two Factor Authentication Routes
 Route::middleware(['auth'])->group(function () {
     Route::get('/two-factor', [TwoFactorController::class, 'index'])->name('two-factor.index');
-    Route::post('/two-factor/enable', [TwoFactorController::class, 'enable'])->name('two-factor.enable');
+    Route::any('/two-factor/enable', [TwoFactorController::class, 'enable'])->name('two-factor.enable');
     Route::post('/two-factor/confirm', [TwoFactorController::class, 'confirm'])->name('two-factor.confirm');
     Route::post('/two-factor/disable', [TwoFactorController::class, 'disable'])->name('two-factor.disable');
 });
@@ -84,7 +84,8 @@ Route::post('/webhook/wallet', [WalletController::class, 'webhook'])->name('webh
 // Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
+    Route::get('/view-password', [ProfileController::class, 'viewPasswordAdmin'])->name('view-password');
+    Route::post('/change-password', [App\Http\Controllers\Auth\PasswordController::class, 'update'])->name('change-password');
     // User Management
     Route::get('/users', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
     Route::get('/users/{user}', [App\Http\Controllers\Admin\UserController::class, 'show'])->name('users.show');

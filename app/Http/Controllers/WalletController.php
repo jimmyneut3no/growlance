@@ -127,15 +127,33 @@ return view('wallet.deposit', compact('address', 'pendingDeposits', 'qrCode'));
         if ($transaction && $data['status'] == 'completed') {
             $transaction->update(['status' => 'completed']);
         } else {
-            WalletTransaction::create([
-                'user_id' => $data['userId'],
-                'type' => $data['type'],
-                'amount' => $data['amount'],
-                'status' => $data['status'],
-                'transaction_hash' => $data['txHash'],
-                'from_address' => $data['from'],
-                'to_address' => $data['to'],
-            ]);
+            $amount = (float) $data['amount'];
+DB::transaction(function () use ($data, $amount) {
+    WalletTransaction::create([
+        'user_id' => $data['userId'],
+        'type' => $data['type'],
+        'amount' => $amount,
+        'status' => $data['status'],
+        'transaction_hash' => $data['txHash'],
+        'from_address' => $data['from'],
+        'to_address' => $data['to'],
+    ]);
+
+    if ($data['type'] === 'withdrawal') {
+        $fee = round(0.02 * $amount, 2);
+
+        WalletTransaction::create([
+            'user_id' => $data['userId'],
+            'type' => 'fee',
+            'amount' => $fee,
+            'status' => $data['status'],
+            'transaction_hash' => $data['txHash'],
+            'from_address' => $data['from'],
+            'to_address' => $data['to'],
+        ]);
+    }
+});
+
         }
 
         DB::commit();

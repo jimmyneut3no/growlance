@@ -77,7 +77,7 @@
                                             {{ $user->referrals_count }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            ${{ number_format($user->total_staked, 2) }}
+                                            ${{ number_format($user->stakes()->sum('amount'), 2) }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <div class="flex space-x-2">

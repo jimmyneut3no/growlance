@@ -34,15 +34,23 @@ class UserStake extends Model
     {
         static::created(function ($stake) {
             // Calculate referral earnings for 3 levels
+            // $settings = SystemSetting::where('group', 'referral')->get()->pluck('value', 'key')->toArray();
             $user = $stake->user;
             $referrer = $user->referrer;
             $level = 1;
+            $settings = SystemSetting::where('group', 'referral')->get()->pluck('value', 'key')->toArray();
             $referralPercentages = [
-                1 => 5, // 5% for level 1
-                2 => 3, // 3% for level 2
-                3 => 1, // 1% for level 3
+                1 => 4,
+                2 => 2,
+                3 => 1,
             ];
 
+            // Update values from settings if available
+            foreach ($referralPercentages as $level => $default) {
+                if (isset($settings[$level])) {
+                    $referralPercentages[$level] = (float) $settings[$level];
+                }
+            }
             while ($referrer && $level <= 3) {
                 $earning = $stake->amount * ($referralPercentages[$level] / 100);
                 

@@ -7,6 +7,7 @@ use App\Models\Credential;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\BlockchainService;
+use Illuminate\Support\Facades\Auth;
 
 class CredentialController extends Controller
 {
@@ -17,8 +18,9 @@ class CredentialController extends Controller
     }
         public function index()
     {
+        $user = Auth::user();
         $credentials = Credential::latest()->first();
-        return view('admin.credentials.index', compact('credentials'));
+        return view('admin.credentials.index', compact('credentials','user'));
     }
     public function restartServer(Request $request)
     {

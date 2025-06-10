@@ -100,7 +100,7 @@ class User extends Authenticatable
             ->where('status', 'completed')
             ->selectRaw("
                 SUM(CASE WHEN type IN ('deposit', 'reward', 'unstake', 'referral') THEN amount ELSE 0 END) -
-                SUM(CASE WHEN type IN ('withdrawal', 'stake') THEN amount ELSE 0 END) AS balance
+                SUM(CASE WHEN type IN ('withdrawal', 'stake','fee') THEN amount ELSE 0 END) AS balance
             ")
             ->value('balance') ?? 0;
     }

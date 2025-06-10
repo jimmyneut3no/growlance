@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use PragmaRX\Google2FA\Google2FA;
 use Illuminate\Support\Facades\Session;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class TwoFactorController extends Controller
 {
@@ -59,7 +60,7 @@ public function showVerifyForm()
             $request->user()->email,
             $secretKey
         );
-
+        $qrCodeUrl = QrCode::size(200)->generate($qrCodeUrl);
         Session::put('2fa_secret', $secretKey);
 
         return view('two-factor.enable', [

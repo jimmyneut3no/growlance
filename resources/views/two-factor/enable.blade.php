@@ -21,7 +21,7 @@
                             <div class="flex flex-col items-center space-y-6">
                                 <!-- QR Code -->
                                 <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-                                    <img src="{{ $qrCodeUrl }}" alt="QR Code" class="w-48 h-48">
+                                    {{ $qrCodeUrl }}
                                 </div>
 
                                 <!-- Secret Key -->

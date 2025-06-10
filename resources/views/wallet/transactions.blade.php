@@ -49,6 +49,9 @@
                                         case 'withdrawal':
                                             $color = 'bg-red-100 text-red-800';
                                             break;
+                                        case 'fee':
+                                            $color = 'bg-red-100 text-red-800';
+                                            break;
                                         case 'stake':
                                             $color = 'bg-orange-100 text-orange';
                                             break;

@@ -113,7 +113,6 @@
                     <ul>
                         <li>Email: privacy@growlance.io</li>
                         <li>Website: growlance.io</li>
-                        <li>Address: [Your Company Address]</li>
                     </ul>
                 </div>
             </div>

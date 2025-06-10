@@ -28,6 +28,12 @@ class ProfileController extends Controller
             'countries' => []
         ]);
     }
+    public function viewPasswordAdmin(Request $request): View
+    {
+        return view('admin.view-password', [
+            'user' => $request->user()
+        ]);
+    }
         public function advanced(Request $request): View
     {
         return view('profile.advanced', [

@@ -94,7 +94,7 @@
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $stake->is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
-                                                    {{ $stake->is_active ? 'Active' : 'Completed' }}
+                                                    {{ ($stake->status == 'active') ? 'Active' : 'Completed' }}
                                                 </span>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

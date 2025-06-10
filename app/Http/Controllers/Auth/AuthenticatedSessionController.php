@@ -28,7 +28,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-            $user = Auth::user();
+        $user = Auth::user();
 
         if ($user->two_factor_enabled) {
             // Store auth temporarily and redirect to OTP confirmation
@@ -36,6 +36,11 @@ class AuthenticatedSessionController extends Controller
             Auth::logout(); // logout until OTP is validated
 
             return redirect()->route('2fa.verify');
+        }
+
+        // Check if user is admin and redirect accordingly
+        if ($user->is_admin) {
+            return redirect()->intended(route('admin.dashboard', absolute: false));
         }
 
         return redirect()->intended(route('dashboard', absolute: false));

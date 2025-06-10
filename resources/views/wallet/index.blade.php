@@ -86,7 +86,7 @@
                                                  @foreach($recentTransactions as $transaction)
                                                      @php
                                                         $addition = ['deposit', 'reward', 'unstake','referral'];
-                                                        $subtraction = ['withdrawal', 'stake'];
+                                                        $subtraction = ['withdrawal', 'stake','fee'];
                                                         $type = strtolower($transaction->type); // normalize for safety
                                                         $isAddition = in_array($type, $addition);
                                                         $isSubtraction = in_array($type, $subtraction);
