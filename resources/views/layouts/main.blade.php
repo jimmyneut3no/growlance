@@ -108,11 +108,14 @@
 						<li class="nav-item active">
 							<a href="{{route('home')}}" class="nav-link active">Home</a>
 						</li>
-						<li class="nav-item">
+						{{-- <li class="nav-item">
 							<a href="#how-it-works" class="nav-link">How it Works</a>
-						</li>
+						</li> --}}
 						<li class="nav-item">
 							<a href="{{route('staking-plans')}}" class="nav-link">Staking Plans</a>
+						</li>
+						<li class="nav-item">
+							<a href="{{route('learn-referral')}}" class="nav-link">Referral Program</a>
 						</li>
 						<li class="nav-item">
 							<a href="{{route('contact')}}" class="nav-link">Contact</a>
@@ -147,7 +150,7 @@
 					<ul class="navbar-nav action">
                     @auth
                     <li class="nav-item ms-2">
-							<a href="{{ url('/logout') }}" class="ms-lg-auto" style=""><i class="icon-logout me-md-2"></i>Logout</a>
+							<a href="{{ url('/logout') }}" class="btn ms-lg-auto" style=""><i class="icon-logout me-md-2"></i>Logout</a>
 						</li>
                          <li class="nav-item ms-2">
 							<a href="{{ url('/dashboard') }}" class="btn ms-lg-auto btn-bordered-white"><i class="icon-wallet me-md-2"></i>Dashboard</a>
@@ -182,16 +185,15 @@
 							</a>
 							<!-- Social Icons -->
 							<div class="social-icons d-flex justify-content-center my-4">
-								<a class="facebook" href="https://t.me/growlanceofficial" target="_blank">
-									<i class="icon-social-telegram"></i>
-									<i class="icon-social-telegram"></i>
+								<a class="facebook text-center d-flex align-items-center justify-content-center" href="https://t.me/growlanceofficial" target="_blank">
+									<i class="fab fa-telegram" style="font-size:25px"></i>
 								</a>
 								<a class="twitter" href="https://x.com/growlanceio?t=QGtEEPn8nSqJiAewe1KNIg&s=09" target="_blank">
 									<i class="icon-social-twitter"></i>
 									<i class="icon-social-twitter"></i>
 								</a>
 								<a href="{{ asset('/assets/Growlance_Brochure.pdf') }}" target="_blank" style="display:flex;align-items:center;justify-content:center;width:170px" rel="noopener noreferrer">
-									<span class="d-flex justify-content-center align-items-center"><i class="icon-doc"></i> View Our PDF</span> 
+									<span class="d-flex justify-content-center align-items-center"><i class="fas fa-file-pdf" style="font-size:20px"></i> View Our PDF</span> 
 								</a>
 							</div>
 							<ul class="list-inline">
@@ -286,6 +288,7 @@
 
 	<!-- Main js -->
 	<script src="{{asset('assets/js/main.js')}}"></script>
+	<script src="//code.tidio.co/ygheenhoygkgcdx6iyohptcinn3k3mve.js" async></script>
 </body>
 
 </html>

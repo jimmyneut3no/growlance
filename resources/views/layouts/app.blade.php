@@ -271,5 +271,6 @@ donutChart1();
 </script>
 
     @stack('scripts')
+    <script src="//code.tidio.co/ygheenhoygkgcdx6iyohptcinn3k3mve.js" async></script>
     </body>
 </html>

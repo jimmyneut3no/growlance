@@ -15,8 +15,10 @@ Route::get('/', [PagesController::class,'home'])->name('home');
 
 Route::get('/staking-plans', [PagesController::class,'stakingPlans'])->name('staking-plans');
 
-Route::get('/contact', [PagesController::class,'contact'])->name('contact');
-Route::post('/contact', [PagesController::class,'sendContact'])->name('contact.send');
+Route::get('/about', [PagesController::class, 'about'])->name('about');
+Route::get('/contact', [PagesController::class, 'contact'])->name('contact');
+Route::post('/contact', [PagesController::class, 'sendContact'])->name('contact.send');
+Route::get('/learn-referral', [PagesController::class, 'referral'])->name('learn-referral');
 
 Route::get('/terms-conditions', function () {
     return view('terms');

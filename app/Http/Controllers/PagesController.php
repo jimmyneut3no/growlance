@@ -15,11 +15,16 @@ class PagesController extends Controller
     }
     public function contact(Request $request){
         // $StakingPlan = StakingPlan::all();
-        return view('contact');
+        return view('pages.contact');
     }
     public function stakingPlans(Request $request){
          $stakingPlans = StakingPlan::where('is_active', true)->get();
         return view('staking-plans', compact('stakingPlans'));
+    }
+
+    public function referral()
+    {
+        return view('pages.referral');
     }
 
     public function sendContact(Request $request)
