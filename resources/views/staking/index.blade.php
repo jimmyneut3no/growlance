@@ -7,8 +7,14 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-12">
+            <div class="col-6">
                 <h3 class="text-lg font-medium text-primary mb-4">Active Stakes</h3>
+            </div>
+            <div class="col-6 text-right mb-4">
+                        <button id="processRewardsBtn" class="btn btn-primary">
+                            <i class="fas fa-sync-alt me-2"></i>Refresh Staking Pool
+                        </button>
+            </div>
             </div>
             @if($activeStakes->isEmpty())
                 <div class="col-12">
@@ -70,7 +76,7 @@
                                             {{ $stake->stakingPlan->name }}</h4>
                                         
                                         <div class="d-flex mt-sm-0 mt-2">
-                                            <a href="javascript:void(0);" class="btn-sm btn-link text-primary underline">REFRESH</a>
+                                            {{-- <a href="javascript:void(0);" class="btn-sm btn-link text-primary underline">REFRESH</a> --}}
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -140,6 +146,73 @@
             @endif
         </div>
         </div>
-
+@push('scripts')
+<script>
+document.getElementById('processRewardsBtn').addEventListener('click', async function() {
+    const button = this;
+    const originalText = button.innerHTML;
+    
+    try {
+        // Disable button and show loading state
+        button.disabled = true;
+        button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+        
+        // Make API call with longer timeout
+        const response = await fetch('{{ route("stakes.process-rewards") }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            timeout: 30000 // 30 seconds timeout
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Show success message with results
+            let message = 'Rewards processed successfully:\n\n';
+            data.results.forEach(result => {
+                message += `Stake #${result.stake_id}: ${result.message}\n`;
+                if (result.total_reward) {
+                    message += `Total reward: ${result.total_reward}\n`;
+                }
+                message += '\n';
+            });
+            
+            // Show success toast with results
+            toastr.success(message, 'Success', {
+                timeOut: 10000, // Show for 10 seconds
+                extendedTimeOut: 5000,
+                closeButton: true,
+                progressBar: true,
+                positionClass: "toast-top-right"
+            });
+            
+            // Reload the page to show updated stakes
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000); // Wait 2 seconds before reloading to show the toast
+        } else {
+            throw new Error(data.message || 'Failed to process rewards');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        toastr.error(error.message || 'Failed to process rewards. Please try again.', 'Error', {
+            timeOut: 5000,
+            extendedTimeOut: 2000,
+            closeButton: true,
+            progressBar: true,
+            positionClass: "toast-top-right"
+        });
+    } finally {
+        // Restore button state
+        button.disabled = false;
+        button.innerHTML = originalText;
+    }
+});
+</script>
+@endpush 
 
 </x-app-layout> 

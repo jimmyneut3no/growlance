@@ -16,6 +16,7 @@ class WalletTransaction extends Model
         'from_address',
         'to_address',
         'metadata',
+        'created_at'
     ];
 
     protected $casts = [

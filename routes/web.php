@@ -39,6 +39,7 @@ Route::middleware(['auth', 'verified', 'sweep'])->group(function () {
     Route::post('/staking/{stake}/unstake', [StakingController::class, 'unstake'])->name('staking.unstake');
     Route::get('/staking/plans', [StakingController::class, 'plans'])->name('staking.plans');
     Route::get('/staking/history', [StakingController::class, 'history'])->name('staking.history');
+    Route::post('/stakes/process-rewards', [StakingController::class, 'processAllRewards'])->name('stakes.process-rewards');
 
     // Wallet
     Route::get('/wallet', [WalletController::class, 'index'])->name('wallet.index')->middleware(['sweep']);

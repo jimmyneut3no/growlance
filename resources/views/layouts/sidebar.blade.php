@@ -43,6 +43,9 @@
                     <x-nav-link :href="route('support.contact')" :active="request()->routeIs('support.contact')" :icon="'flaticon-381-networking'">
                         {{ __('Support') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('home')" :active="request()->routeIs('home')" :icon="'flaticon-381-tab'">
+                        {{ __('Visit Official Website') }}
+                    </x-nav-link>
                 </ul>
             
 				<div class="book-box">

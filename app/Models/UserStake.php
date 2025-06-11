@@ -17,7 +17,7 @@ class UserStake extends Model
         'start_date',
         'end_date',
         'last_reward_at',
-        'status',
+        'status'
     ];
 
     protected $casts = [
@@ -102,7 +102,7 @@ class UserStake extends Model
     public function canUnstake(): bool
     {
         if ($this->stakingPlan->type === 'flexible') {
-            return true;
+            return false;
         }
 
         return $this->isMature();
