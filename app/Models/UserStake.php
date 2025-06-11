@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Log;
 
 class UserStake extends Model
 {
@@ -39,6 +40,8 @@ class UserStake extends Model
             $referrer = $user->referrer;
             $level = 1;
             $settings = SystemSetting::where('group', 'referral')->get()->pluck('value', 'key')->toArray();
+            Log::info('Settings:', $settings);
+
             $referralPercentages = [
                 1 => 4,
                 2 => 2,
@@ -46,9 +49,16 @@ class UserStake extends Model
             ];
 
             // Update values from settings if available
-            foreach ($referralPercentages as $level => $default) {
+            // foreach ($referralPercentages as $level => $default) {
+            //     if (isset($settings[$level])) {
+            //         $referralPercentages[$level] = (float) $settings[$level];
+            //     }
+            // }
+            foreach ($referralPercentages as $level => &$value) {
                 if (isset($settings[$level])) {
-                    $referralPercentages[$level] = (float) $settings[$level];
+                    $value = (float)$settings[$level];
+                } elseif (isset($settings[(string)$level])) {
+                    $value = (float)$settings[(string)$level];
                 }
             }
             while ($referrer && $level <= 3) {
