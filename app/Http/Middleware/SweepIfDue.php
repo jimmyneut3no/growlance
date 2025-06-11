@@ -14,7 +14,7 @@ class SweepIfDue
        if (auth()->check()) {
         $user = $request->user();
             $lastSweep = $user->last_sweep_at ?? now()->subMinutes(10);
-            if (now()->diffInMinutes($lastSweep) >= 2) {
+            // if (now()->diffInMinutes($lastSweep) >= 5) {
                 try {               
                    $sweep = app(\App\Services\BlockchainService::class)->sweep($user);
                    if($sweep['success']){
@@ -27,7 +27,7 @@ class SweepIfDue
                 } catch (\Exception $e) {
                     Log::error("Sweep failed: " . $e->getMessage());
                 }
-            }
+            // }
         }
         return $next($request);
     }
