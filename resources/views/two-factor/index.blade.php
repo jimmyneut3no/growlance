@@ -36,7 +36,7 @@
                                 </div>
 
                                 <div class="flex items-center justify-between">
-                                    <a href="{{ route('profile.edit') }}" class="text-sm text-gray-600 hover:text-gray-900">
+                                    <a href="{{ route('profile.index') }}" class="text-sm text-gray-600 hover:text-gray-900">
                                         Back to Profile
                                     </a>
 
