@@ -54,13 +54,6 @@ class UserStake extends Model
             //         $referralPercentages[$level] = (float) $settings[$level];
             //     }
             // }
-            foreach ($referralPercentages as $level => &$value) {
-                if (isset($settings[$level])) {
-                    $value = (float)$settings[$level];
-                } elseif (isset($settings[(string)$level])) {
-                    $value = (float)$settings[(string)$level];
-                }
-            }
             while ($referrer && $level <= 3) {
                 $earning = $stake->amount * ($referralPercentages[$level] / 100);
                 
