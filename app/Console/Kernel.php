@@ -10,9 +10,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // Daily rewards distribution at midnight
-        $schedule->command('staking:distribute-rewards')
-            ->dailyAt('00:00')
-            ->withoutOverlapping();
+        // $schedule->command('staking:distribute-rewards')
+        //     ->dailyAt('00:00')
+        //     ->withoutOverlapping();
 
         // Check staking maturity every hour
         // $schedule->command('staking:check-maturity')

@@ -5,6 +5,9 @@
             <div class="deznav-scroll">
 				<ul class="metismenu" id="menu">
                     <!-- Navigation Links -->
+                    <x-nav-link :href="route('home')" :active="request()->routeIs('home')" :icon="'flaticon-381-tab'">
+                        {{ __('Home') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" :icon="'flaticon-381-speedometer'">
                         {{ __('Dashboard') }}
                     </x-nav-link>
@@ -43,9 +46,7 @@
                     <x-nav-link :href="route('support.contact')" :active="request()->routeIs('support.contact')" :icon="'flaticon-381-networking'">
                         {{ __('Support') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('home')" :active="request()->routeIs('home')" :icon="'flaticon-381-tab'">
-                        {{ __('Visit Official Website') }}
-                    </x-nav-link>
+
                 </ul>
             
 				<div class="book-box">
