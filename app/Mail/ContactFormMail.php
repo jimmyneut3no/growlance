@@ -4,6 +4,8 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 class ContactFormMail extends Mailable
@@ -14,7 +16,7 @@ class ContactFormMail extends Mailable
     public $lastName;
     public $email;
     public $phone;
-    public $message;
+    public $contactMessage;
     public $isConfirmation;
 
     /**
@@ -26,31 +28,34 @@ class ContactFormMail extends Mailable
         $this->lastName = $data['lastName'];
         $this->email = $data['email'];
         $this->phone = $data['phone'] ?? null;
-        $this->message = $data['message'];
+        $this->contactMessage = $data['message'];
         $this->isConfirmation = $isConfirmation;
     }
 
     /**
      * Get the message envelope.
      */
-    public function envelope()
+    public function envelope(): Envelope
     {
         if ($this->isConfirmation) {
-            return $this->subject('Thank you for contacting Growlance')
-                ->from(config('mail.from.address'), config('mail.from.name'));
+        return new Envelope(
+            subject: 'Thank you for contacting Growlance',
+            replyTo: [config('mail.from.reply_to')],
+        );
         }
-
-        return $this->subject('New Contact Form Submission')
-            ->from(config('mail.from.address'), config('mail.from.name'))
-            ->replyTo($this->email, $this->firstName . ' ' . $this->lastName);
+        return new Envelope(
+            subject: 'New Contact Form Submission',
+            replyTo: [$this->email],
+        );
     }
-
     /**
      * Get the message content definition.
      */
-    public function content()
+    public function content(): Content
     {
-        return $this->view($this->isConfirmation ? 'emails.contact-confirmation' : 'emails.contact');
+        return new Content(
+            view: $this->isConfirmation ? 'emails.contact-confirmation' : 'emails.contact',
+        );
     }
 
     /**

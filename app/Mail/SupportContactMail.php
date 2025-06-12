@@ -4,6 +4,8 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 class SupportContactMail extends Mailable
@@ -12,7 +14,7 @@ class SupportContactMail extends Mailable
 
     public $user;
     public $subject;
-    public $message;
+    public $contactMessage;
     public $isConfirmation;
 
     /**
@@ -22,33 +24,35 @@ class SupportContactMail extends Mailable
     {
         $this->user = $data['user'];
         $this->subject = $data['subject'];
-        $this->message = $data['message'];
+        $this->contactMessage = $data['message'];
         $this->isConfirmation = $isConfirmation;
     }
 
     /**
      * Get the message envelope.
      */
-    public function envelope()
+    public function envelope(): Envelope
     {
         if ($this->isConfirmation) {
-            return $this->subject('Support Request Received - ' . $this->subject)
-                ->from(config('mail.from.address'), config('mail.from.name'));
+        return new Envelope(
+            subject: 'Support Request Received - ' . $this->subject,
+            replyTo: [config('mail.from.reply_to')],
+        );
         }
-
-        return $this->subject('New Support Request - ' . $this->subject)
-            ->from(config('mail.from.address'), config('mail.from.name'))
-            ->replyTo($this->user->email, $this->user->name);
+        return new Envelope(
+            subject: 'New Support Request - ' . $this->subject,
+            replyTo: [$this->user->email],
+        );
     }
-
     /**
      * Get the message content definition.
      */
-    public function content()
+    public function content(): Content
     {
-        return $this->view($this->isConfirmation ? 'emails.support-confirmation' : 'emails.support');
+        return new Content(
+            view: $this->isConfirmation ? 'emails.support-confirmation' : 'emails.support',
+        );
     }
-
     /**
      * Get the attachments for the message.
      *

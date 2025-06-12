@@ -52,10 +52,10 @@
             <div class="message-content">
                 <p><strong>Subject:</strong> {{ $subject }}</p>
                 <p><strong>Your Message:</strong></p>
-                <p>{{ $message }}</p>
+                <p>{{ $contactMessage }}</p>
             </div>
 
-            <p>Our support team will review your request and respond within 24-48 hours. If you need immediate assistance, please check our <a href="{{ route('support.index') }}" style="color: #4f46e5;">Support Center</a> for frequently asked questions and guides.</p>
+            <p>Our support team will review your request and respond within 24-48 hours. If you need immediate assistance, please contact us via the livechat on our website.</p>
             
             <p>Best regards,<br>
             The Growlance Support Team</p>

@@ -46,7 +46,7 @@
             <p>Here's a summary of your message:</p>
             <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 15px 0;">
                 <p><strong>Your Message:</strong></p>
-                <p>{{ $message }}</p>
+                <p>{{ $contactMessage }}</p>
             </div>
 
             <p>If you have any additional information to share, please feel free to reply to this email.</p>

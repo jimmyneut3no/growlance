@@ -59,7 +59,7 @@
             
             <div class="message-content">
                 <p><strong>Message:</strong></p>
-                <p>{{ $message }}</p>
+                <p>{{ $contactMessage }}</p>
             </div>
 
             <p style="margin-top: 20px;">

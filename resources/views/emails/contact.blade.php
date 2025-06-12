@@ -45,7 +45,7 @@
             <p><strong>Phone:</strong> {{ $phone }}</p>
             @endif
             <p><strong>Message:</strong></p>
-            <p>{{ $message }}</p>
+            <p>{{ $contactMessage }}</p>
         </div>
 
         <div class="footer">
