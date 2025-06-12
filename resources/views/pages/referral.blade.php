@@ -59,7 +59,7 @@
 						<div class="single-work">
 							<i class="icons icon-drawer text-effect"></i>
 							<h4>Level 1 (Direct)</h4>
-							<p>4% commission on your direct referrals' staking deposits</p>
+							<p>8% commission on your direct referrals' staking deposits</p>
 						</div>
 					</div>
 					<div class="col-12 col-sm-6 col-lg-4 item">
@@ -67,7 +67,7 @@
 						<div class="single-work">
 							<i class="icons icon-wallet text-effect"></i>
 							<h4>Level 2</h4>
-							<p>2% commission on your referrals' referrals' staking deposits</p>
+							<p>5% commission on your referrals' referrals' staking deposits</p>
 						</div>
 					</div>
 					<div class="col-12 col-sm-6 col-lg-4 item">
@@ -75,7 +75,7 @@
 						<div class="single-work">
 							<i class="icons icon-fire text-effect"></i>
 							<h4>Level 3</h4>
-							<p>1% commission on third-level referrals' staking deposits</p>
+							<p>3% commission on third-level referrals' staking deposits</p>
 						</div>
 					</div>
 				</div>
@@ -186,18 +186,18 @@
                                 <tbody>
                                     <tr>
                                         <td>Level 1 (Direct)</td>
-                                        <td>4%</td>
-                                        <td>$40 on $1,000 staking deposit</td>
+                                        <td>8%</td>
+                                        <td>$80 on $1,000 staking deposit</td>
                                     </tr>
                                     <tr>
                                         <td>Level 2</td>
-                                        <td>2%</td>
-                                        <td>$20 on $1,000 staking deposit</td>
+                                        <td>5%</td>
+                                        <td>$50 on $1,000 staking deposit</td>
                                     </tr>
                                     <tr>
                                         <td>Level 3</td>
-                                        <td>1%</td>
-                                        <td>$10 on $1,000 staking deposit</td>
+                                        <td>3%</td>
+                                        <td>$30 on $1,000 staking deposit</td>
                                     </tr>
                                 </tbody>
                             </table>
