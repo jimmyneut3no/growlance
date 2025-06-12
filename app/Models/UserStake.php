@@ -43,9 +43,9 @@ class UserStake extends Model
             Log::info('Settings:', $settings);
 
             $referralPercentages = [
-                1 => 4,
-                2 => 2,
-                3 => 1,
+                1 => 8,
+                2 => 5,
+                3 => 3,
             ];
 
             // Update values from settings if available
