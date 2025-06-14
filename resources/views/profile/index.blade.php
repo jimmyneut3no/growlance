@@ -26,7 +26,7 @@
                             <h3 class="text-lg font-medium text-gray-900 mb-4">Profile Information</h3>
                             <form method="POST" action="{{ route('profile.update') }}" class="space-y-6">
                                 @csrf
-                                @method('PUT')
+                                @method('PATCH')
 
                                 <div>
                                     <x-input-label for="name" :value="__('Name')" />

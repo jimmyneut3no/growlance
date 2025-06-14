@@ -93,6 +93,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::get('/view-password', [ProfileController::class, 'viewPasswordAdmin'])->name('view-password');
     Route::post('/change-password', [App\Http\Controllers\Auth\PasswordController::class, 'update'])->name('change-password');
+    Route::get('/transactions', [App\Http\Controllers\Admin\TransactionsController::class, 'allTransactions'])->name('transactions');
+    Route::get('/staking-history', [App\Http\Controllers\Admin\TransactionsController::class, 'allStakes'])->name('staking-history');
     // User Management
     Route::get('/users', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
     Route::get('/users/{user}', [App\Http\Controllers\Admin\UserController::class, 'show'])->name('users.show');

@@ -161,12 +161,12 @@
                     <div class="p-6 border-b border-gray-100">
                         <div class="flex justify-between items-center">
                             <h3 class="text-lg font-bold text-gray-900">Recent Stakes</h3>
-                            {{-- <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center">
+                            <a href="{{route('admin.staking-history')}}" class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center">
                                 View all
                                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                                 </svg>
-                            </a> --}}
+                            </a>
                         </div>
                     </div>
                     <div class="divide-y divide-gray-100">
@@ -199,12 +199,12 @@
                     <div class="p-6 border-b border-gray-100">
                         <div class="flex justify-between items-center">
                             <h3 class="text-lg font-bold text-gray-900">Recent Transactions</h3>
-                            {{-- <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center">
+                            <a href="{{route('admin.transactions')}}" class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center">
                                 View all
                                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                                 </svg>
-                            </a> --}}
+                            </a>
                         </div>
                     </div>
                     <div class="divide-y divide-gray-100">
