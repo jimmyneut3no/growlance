@@ -7,6 +7,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Auth\Events\Login;
 use App\Models\UserStake;
 use App\Models\WalletTransaction;
+use App\Models\StakingPlan;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -16,15 +17,18 @@ class ProcessStakingRewardsOnLogin
     public function handle(Login $event)
     {
         $user = $event->user;
-        $today = now()->startOfDay(); // Set to start of day for consistent comparison
+        $now = now();
+        $today = $now->startOfDay();
         
         Log::info("Starting reward processing on login", [
             'user_id' => $user->id,
-            'timestamp' => $today->toDateTimeString()
+            'timestamp' => $now->toDateTimeString(),
+            'today' => $today->toDateTimeString()
         ]);
         
-        // Get all active stakes for the user
-        $activeStakes = UserStake::where('user_id', $user->id)
+        // Get all active stakes for the user with their staking plan
+        $activeStakes = UserStake::with('stakingPlan')
+            ->where('user_id', $user->id)
             ->where('status', 'active')
             ->get();
 
@@ -38,146 +42,166 @@ class ProcessStakingRewardsOnLogin
             try {
                 DB::beginTransaction();
 
+                // Get the lock_period from the staking plan
+                $lockPeriod = $stake->stakingPlan->lock_period;
+                $stakeEndDate = Carbon::parse($stake->created_at)->addDays($lockPeriod)->startOfDay();
+
                 Log::info("Processing stake on login", [
                     'user_id' => $user->id,
                     'stake_id' => $stake->id,
                     'stake_status' => $stake->status,
-                    'end_date' => $stake->end_date,
-                    'last_reward_at' => $stake->last_reward_at
+                    'created_at' => $stake->created_at,
+                    'calculated_end_date' => $stakeEndDate->toDateString(),
+                    'lock_period' => $lockPeriod,
+                    'daily_reward' => $stake->daily_reward,
+                    'staking_plan_id' => $stake->staking_plan_id
                 ]);
 
                 // Check if stake has matured
-                if ($stake->end_date && $stake->end_date <= $today) {
-                    $stake->update(['status' => 'completed']);
+                if ($stakeEndDate <= $today) {
+                    $stake->update(['status' => 'completed', 'end_date' => $stakeEndDate]);
                     Log::info("Stake marked as completed on login", [
                         'user_id' => $user->id,
                         'stake_id' => $stake->id,
-                        'end_date' => $stake->end_date
+                        'end_date' => $stakeEndDate->toDateString()
                     ]);
+                    DB::commit();
+                    continue;
                 }
 
-                // Calculate missed days (max 5 days lookback)
-                $lastRewardDate = $stake->last_reward_at ?? $stake->created_at;
-                $lastRewardDate = Carbon::parse($lastRewardDate)->startOfDay(); // Set to start of day
+                // Calculate expected reward days and actual received rewards
+                $stakeStartDate = Carbon::parse($stake->created_at)->startOfDay();
+                $daysSinceStakeStart = $stakeStartDate->diffInDays($today);
+                $expectedRewardDays = min($daysSinceStakeStart, $lockPeriod);
                 
-                // Ensure we're only processing if last reward was at least 24 hours ago
-                if ($lastRewardDate->addDay()->isPast()) {
-                    // Calculate days between dates, ensuring positive value and max 5 days
-                    $daysSinceLastReward = min(max(0, $lastRewardDate->diffInDays($today, false)), 5);
-                    
-                    Log::info("Calculated days since last reward on login", [
+                // Count actual rewards received for this stake
+                $actualRewardDays = WalletTransaction::where('user_id', $user->id)
+                    ->where('type', 'reward')
+                    ->whereJsonContains('metadata->stake_id', $stake->id)
+                    ->count();
+                
+                Log::info("Reward day calculations", [
+                    'user_id' => $user->id,
+                    'stake_id' => $stake->id,
+                    'stake_start_date' => $stakeStartDate->toDateString(),
+                    'days_since_stake_start' => $daysSinceStakeStart,
+                    'lock_period' => $lockPeriod,
+                    'expected_reward_days' => $expectedRewardDays,
+                    'actual_reward_days' => $actualRewardDays
+                ]);
+
+                // Calculate missing rewards
+                $missingRewardDays = $expectedRewardDays - $actualRewardDays;
+                
+                if ($missingRewardDays <= 0) {
+                    Log::info("No missing rewards for stake", [
                         'user_id' => $user->id,
                         'stake_id' => $stake->id,
-                        'last_reward_date' => $lastRewardDate->toDateTimeString(),
-                        'today' => $today->toDateTimeString(),
-                        'days_since_last_reward' => $daysSinceLastReward,
-                        'is_past_24h' => true
+                        'missing_reward_days' => $missingRewardDays
                     ]);
+                    DB::commit();
+                    continue;
+                }
+
+                Log::info("Processing missing rewards", [
+                    'user_id' => $user->id,
+                    'stake_id' => $stake->id,
+                    'missing_reward_days' => $missingRewardDays,
+                    'max_possible_missing_days' => $lockPeriod - $actualRewardDays
+                ]);
+
+                $totalReward = 0;
+                $processedDays = 0;
+                
+                // Process each missing reward day
+                for ($day = 1; $day <= $missingRewardDays; $day++) {
+                    $rewardDate = $stakeStartDate->copy()->addDays($actualRewardDays + $day);
                     
-                    // Only process if rewards are due
-                    if ($daysSinceLastReward > 0) {
-                        $totalReward = 0;
-                        $currentDate = Carbon::parse($lastRewardDate);
-                        $processedDays = 0;
-                        
-                        Log::info("Starting daily reward processing on login", [
+                    // Extra safety check - shouldn't be needed due to earlier calculations
+                    if ($rewardDate > $stakeEndDate) {
+                        Log::warning("Attempted to process reward beyond stake end date", [
                             'user_id' => $user->id,
                             'stake_id' => $stake->id,
-                            'start_date' => $currentDate->toDateString(),
-                            'daily_reward' => $stake->daily_reward
+                            'reward_date' => $rewardDate->toDateString(),
+                            'stake_end_date' => $stakeEndDate->toDateString()
                         ]);
-                        
-                        // Process each missed day (catch-up)
-                        for ($i = 0; $i < $daysSinceLastReward; $i++) {
-                            $currentDate->addDay();
-                            
-                            // Skip if stake has ended
-                            if ($currentDate > $stake->end_date) {
-                                Log::info("Skipping future dates beyond stake end date on login", [
-                                    'user_id' => $user->id,
-                                    'stake_id' => $stake->id,
-                                    'current_date' => $currentDate->toDateString(),
-                                    'end_date' => $stake->end_date
-                                ]);
-                                break;
-                            }
-                            
-                            $dailyReward = $stake->daily_reward;
-                            $totalReward += $dailyReward;
-                            $processedDays++;
-                            
-                            Log::info("Creating daily reward transaction on login", [
-                                'user_id' => $user->id,
-                                'stake_id' => $stake->id,
-                                'date' => $currentDate->toDateString(),
-                                'daily_reward' => $dailyReward
-                            ]);
-                            
-                            // Create individual transaction for each day
-                            WalletTransaction::create([
-                                'user_id' => $user->id,
-                                'type' => 'reward',
-                                'amount' => $dailyReward,
-                                'status' => 'completed',
-                                'created_at' => $currentDate, // Backdate transaction
-                                'metadata' => [
-                                    'stake_id' => $stake->id,
-                                    'plan_id' => $stake->staking_plan_id,
-                                    'reward_date' => $currentDate->toDateString(),
-                                ],
-                            ]);
-                        }
-                        
-                        // Update stake only if rewards were added
-                        if ($totalReward > 0) {
-                            Log::info("Updating stake with new rewards on login", [
-                                'user_id' => $user->id,
-                                'stake_id' => $stake->id,
-                                'total_reward' => $totalReward,
-                                'processed_days' => $processedDays
-                            ]);
-                            
-                            $stake->update([
-                                'total_reward' => $stake->total_reward + $totalReward,
-                                'last_reward_at' => $today,
-                            ]);
-                        } else {
-                            Log::info("No rewards to add for stake on login", [
-                                'user_id' => $user->id,
-                                'stake_id' => $stake->id
-                            ]);
-                        }
+                        continue;
                     }
-                } else {
-                    Log::info("Skipping stake on login - less than 24 hours since last reward", [
+                    
+                    $dailyReward = $stake->daily_reward;
+                    $totalReward += $dailyReward;
+                    $processedDays++;
+                    
+                    Log::info("Creating reward transaction", [
                         'user_id' => $user->id,
                         'stake_id' => $stake->id,
-                        'last_reward_date' => $lastRewardDate->toDateTimeString(),
-                        'hours_since_last_reward' => $lastRewardDate->diffInHours(now())
+                        'reward_date' => $rewardDate->toDateString(),
+                        'daily_reward' => $dailyReward,
+                        'day_number' => $actualRewardDays + $day,
+                        'total_days_so_far' => $actualRewardDays + $day
+                    ]);
+                    
+                    WalletTransaction::create([
+                        'user_id' => $user->id,
+                        'type' => 'reward',
+                        'amount' => $dailyReward,
+                        'status' => 'completed',
+                        'created_at' => $rewardDate,
+                        'metadata' => [
+                            'stake_id' => $stake->id,
+                            'plan_id' => $stake->staking_plan_id,
+                            'reward_date' => $rewardDate->toDateString(),
+                            'day_number' => $actualRewardDays + $day,
+                            'lock_period' => $lockPeriod,
+                            'total_days_so_far' => $actualRewardDays + $day
+                        ],
+                    ]);
+                }
+                
+                // Update stake only if rewards were added
+                if ($totalReward > 0) {
+                    Log::info("Updating stake with new rewards", [
+                        'user_id' => $user->id,
+                        'stake_id' => $stake->id,
+                        'total_reward_added' => $totalReward,
+                        'processed_days' => $processedDays,
+                        'new_total_reward' => $stake->total_reward + $totalReward,
+                        'new_last_reward_at' => $now,
+                        'remaining_lock_period' => $lockPeriod - ($actualRewardDays + $processedDays)
+                    ]);
+                    
+                    $stake->update([
+                        'total_reward' => $stake->total_reward + $totalReward,
+                        'last_reward_at' => $now,
+                        'end_date' => $stakeEndDate // Ensure end_date is always set
                     ]);
                 }
 
                 DB::commit();
-                Log::info("Successfully processed stake rewards on login", [
+                Log::info("Successfully processed stake rewards", [
                     'user_id' => $user->id,
                     'stake_id' => $stake->id,
-                    'total_reward' => $totalReward ?? 0,
-                    'processed_days' => $processedDays ?? 0
+                    'total_reward_added' => $totalReward,
+                    'processed_days' => $processedDays,
+                    'total_reward_days_so_far' => $actualRewardDays + $processedDays,
+                    'remaining_days' => $lockPeriod - ($actualRewardDays + $processedDays)
                 ]);
             } catch (\Exception $e) {
                 DB::rollBack();
-                Log::error("Failed to process rewards for user on login", [
+                Log::error("Failed to process rewards for stake", [
                     'user_id' => $user->id,
                     'stake_id' => $stake->id,
                     'error' => $e->getMessage(),
-                    'trace' => $e->getTraceAsString()
+                    'trace' => $e->getTraceAsString(),
+                    'staking_plan_id' => $stake->staking_plan_id ?? null
                 ]);
             }
         }
 
         Log::info("Completed reward processing on login", [
             'user_id' => $user->id,
-            'total_stakes_processed' => count($activeStakes)
+            'total_stakes_processed' => count($activeStakes),
+            'timestamp' => now()->toDateTimeString()
         ]);
     }
 }

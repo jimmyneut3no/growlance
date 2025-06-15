@@ -11,9 +11,9 @@
                 <h3 class="text-lg font-medium text-primary mb-4">Active Stakes</h3>
             </div>
             <div class="col-6 text-right mb-4">
-                        <button id="processRewardsBtn" class="btn btn-primary">
+                        {{-- <button id="processRewardsBtn" class="btn btn-primary">
                             <i class="fas fa-sync-alt me-2"></i>Refresh Staking Pool
-                        </button>
+                        </button> --}}
             </div>
             </div>
             @if($activeStakes->isEmpty())
